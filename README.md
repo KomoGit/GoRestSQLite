@@ -2,7 +2,7 @@
 REST Api for student registry that allows you to create,read,update and delete data from a local SQLite Database hosted on localhost:8080. At the moment the data is retrieved from a terminal so run the application with one. In the future I will add the front-end GUI application for ease of access to data.
 
 ## REST Links
-- CREATE 
+- CREATE  ("POST")
 - ```/api/students/{fName},{email},{pNum}``` Allows you to insert a new user into the database.
 - READ ("GET")
 - ```/api/students``` Allows you to get all data from database.
