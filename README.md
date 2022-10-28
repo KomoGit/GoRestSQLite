@@ -19,6 +19,6 @@ REST Api for student registry that allows you to create,read,update and delete d
 | Names | Links |
 | ------ | ------ |
 | go-sqlite3 | https://github.com/mattn/go-sqlite3|
-| uuid | github.com/google/uuid|
-| Gorilla Mux | github.com/gorilla/mux|
-| Dillinger.io | dillinger.io|
+| uuid | https://github.com/google/uuid|
+| Gorilla Mux | https://github.com/gorilla/mux|
+| Dillinger.io | https://dillinger.io|
