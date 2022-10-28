@@ -14,3 +14,9 @@ REST Api for student registry that allows you to create,read,update and delete d
 - DELETE ("DELETE")
 - ```/api/students/{id}``` Delete student with id.
 - ```/api/students/``` Delete all from the database.
+
+## I have used these open-source projects to build mine.
+| go-sqlite3 | [https://github.com/mattn/go-sqlite3][PlDb] |
+| uuid | [github.com/google/uuid][PlGh] |
+| Gorilla Mux | [github.com/gorilla/mux][PlGd] |
+| Dillinger.io | [dillinger.io][PlOd] |
