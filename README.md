@@ -1,5 +1,5 @@
 # GoRestSQLite
-REST Api for student registry that allows you to create,read,update and delete data from a local SQLite Database hosted on localhost:8080. At the moment the data is retrieved to a terminal so run the application with one. In the future I will add the front-end GUI application for ease of access to data.
+REST Api for student registry that allows you to create,read,update and delete data from a local SQLite Database hosted on localhost:8080. At the moment the data is retrieved to a terminal so run the application with one.
 
 ## REST Links
 - CREATE  ("POST")
