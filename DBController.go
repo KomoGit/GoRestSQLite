@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"log"
 	"net/http"
 	"time"
@@ -12,14 +13,18 @@ import (
 )
 
 // Need a registrar struct that contains this as an object.
-var db = connectDB()
 var (
-	fullname string
-	phone    string
-	email    string
-	id       string
-	date     string
+	stu *Student
+	db  = connectDB()
 )
+
+type Student struct {
+	Fullname string `json:"fullname"`
+	Phone    string `json:"phone"`
+	Email    string `json:"email"`
+	Id       string `json:"id"`
+	Date     string `json:"date"`
+}
 
 // INSERT || UPDATE DATA
 func insertIntoDB(w http.ResponseWriter, r *http.Request) {
@@ -52,14 +57,15 @@ func deleteAllFromDB(w http.ResponseWriter, r *http.Request) {
 
 // GET DATA
 func getAllFromDB(w http.ResponseWriter, r *http.Request) {
+	log.Println("Test")
 	rows, err := db.Query("SELECT * FROM Registers")
 	checkErr(err)
 	for rows.Next() {
-		err := rows.Scan(&fullname, &email, &phone, &id, &date)
+		json.NewEncoder(w).Encode(err)
+		err := rows.Scan(&stu.Fullname, &stu.Email, &stu.Phone, &stu.Id, &stu.Date)
+		w.Header().Set("Content-Type", "application/json")
 		checkErr(err)
-		log.Println(fullname, email, phone, id, date)
 	}
-	err = rows.Err()
 }
 
 func getWithId(w http.ResponseWriter, r *http.Request) {
@@ -67,11 +73,10 @@ func getWithId(w http.ResponseWriter, r *http.Request) {
 	rows, err := db.Query("SELECT Fullname, Email, Phone, RegisterDate FROM Registers WHERE UUID = ?", params["id"])
 	checkErr(err)
 	for rows.Next() { //I doubt we need a full on for loop here....
-		err := rows.Scan(&fullname, &email, &phone, &date)
+		err := rows.Scan(&stu.Fullname, &stu.Email, &stu.Phone, &stu.Date)
 		checkErr(err)
-		log.Println(fullname, email, phone, date)
+		log.Println(stu.Fullname, stu.Email, stu.Phone, stu.Date)
 	}
-	err = rows.Err()
 }
 
 // ETC
@@ -79,8 +84,4 @@ func connectDB() *sql.DB {
 	db, err := sql.Open("sqlite3", "./Database/MockDB.db")
 	checkErr(err)
 	return db
-}
-
-func closeDB() {
-	db.Close()
 }
