@@ -57,7 +57,7 @@ func deleteAllFromDB(w http.ResponseWriter, r *http.Request) {
 }
 
 // GET DATA
-func getAllFromDB(w http.ResponseWriter, r *http.Request) {
+func getAll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	rows, err := db.Query("SELECT * FROM Registers")
 	checkErr(err)
@@ -70,13 +70,18 @@ func getAllFromDB(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(stu)
 }
 
+// Reloading duplicates the same entry for both READ requests. Probably something to do in the For loop. It is unknown how to fix this.
+/*Potential solution to this issue is to ensure the For loop is outside of the function. So when the request associated
+Function is called, the loop isn't repeated again and again.
+*/
 func getWithId(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
-	rows, err := db.Query("SELECT Fullname, Email, Phone, RegisterDate FROM Registers WHERE UUID = ?", params["id"])
+	rows, err := db.Query("SELECT Fullname, Email, Phone, UUID,RegisterDate FROM Registers WHERE UUID = ?", params["id"])
 	checkErr(err)
 	st := Student{}
-	for rows.Next() { //I doubt we need a full on for loop here....
-		err := rows.Scan(&st.Fullname, &st.Email, &st.Phone, &st.Date)
+	for rows.Next() {
+		err := rows.Scan(&st.Fullname, &st.Email, &st.Phone, &st.Id, &st.Date)
 		checkErr(err)
 		stu = append(stu, st)
 	}

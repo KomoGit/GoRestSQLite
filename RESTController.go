@@ -15,7 +15,7 @@ func startServer() {
 }
 
 func RouteHandlers() {
-	r.HandleFunc("/api/students", getAllFromDB).Methods("GET")
+	r.HandleFunc("/api/students", getAll).Methods("GET")
 	r.HandleFunc("/api/students/{id}", getWithId).Methods("GET")
 	r.HandleFunc("/api/students/{fName},{email},{pNum}", insertIntoDB).Methods("POST")
 	r.HandleFunc("/api/students/update/name/{id},{fName}", updateName).Methods("PUT")
