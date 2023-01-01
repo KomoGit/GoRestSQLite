@@ -14,7 +14,7 @@ import (
 
 // Need a registrar struct that contains this as an object.
 var (
-	stu *Student
+	stu []Student
 	db  = connectDB()
 )
 
@@ -28,6 +28,7 @@ type Student struct {
 
 // INSERT || UPDATE DATA
 func insertIntoDB(w http.ResponseWriter, r *http.Request) {
+	log.Println("Inserted into database")
 	params := mux.Vars(r)
 	stmt, err := db.Prepare("INSERT INTO Registers(Fullname, Email, Phone,UUID,RegisterDate) VALUES(?,?,?,?,?)")
 	checkErr(err)
@@ -57,26 +58,30 @@ func deleteAllFromDB(w http.ResponseWriter, r *http.Request) {
 
 // GET DATA
 func getAllFromDB(w http.ResponseWriter, r *http.Request) {
-	log.Println("Test")
+	w.Header().Set("Content-Type", "application/json")
 	rows, err := db.Query("SELECT * FROM Registers")
 	checkErr(err)
+	json.NewEncoder(w).Encode(stu)
+
 	for rows.Next() {
-		json.NewEncoder(w).Encode(err)
-		err := rows.Scan(&stu.Fullname, &stu.Email, &stu.Phone, &stu.Id, &stu.Date)
-		w.Header().Set("Content-Type", "application/json")
-		checkErr(err)
 	}
+	// for rows.Next() {
+	// 	json.NewEncoder(w).Encode(rows)
+	// 	//err := rows.Scan(&stu.Fullname, &stu.Email, &stu.Phone, &stu.Id, &stu.Date)
+	// 	//w.Header().Set("Content-Type", "application/json")
+	// 	checkErr(err)
+	// }
 }
 
 func getWithId(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
+	/*params := mux.Vars(r)
 	rows, err := db.Query("SELECT Fullname, Email, Phone, RegisterDate FROM Registers WHERE UUID = ?", params["id"])
 	checkErr(err)
 	for rows.Next() { //I doubt we need a full on for loop here....
-		err := rows.Scan(&stu.Fullname, &stu.Email, &stu.Phone, &stu.Date)
+		err := rows.Scan(&students.Fullname, &students.Email, &students.Phone, &students.Date)
 		checkErr(err)
-		log.Println(stu.Fullname, stu.Email, stu.Phone, stu.Date)
-	}
+		log.Println(students.Fullname, students.Email, students.Phone, students.Date)
+	}*/
 }
 
 // ETC
