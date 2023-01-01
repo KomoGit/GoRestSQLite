@@ -61,16 +61,12 @@ func getAllFromDB(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	rows, err := db.Query("SELECT * FROM Registers")
 	checkErr(err)
-	json.NewEncoder(w).Encode(stu)
-
+	st := Student{}
 	for rows.Next() {
+		log.Fatalln(rows.Scan(&st.Fullname, &st.Email, &st.Phone, &st.Id, &st.Date))
+		stu = append(stu, st)
 	}
-	// for rows.Next() {
-	// 	json.NewEncoder(w).Encode(rows)
-	// 	//err := rows.Scan(&stu.Fullname, &stu.Email, &stu.Phone, &stu.Id, &stu.Date)
-	// 	//w.Header().Set("Content-Type", "application/json")
-	// 	checkErr(err)
-	// }
+	json.NewEncoder(w).Encode(stu)
 }
 
 func getWithId(w http.ResponseWriter, r *http.Request) {
