@@ -78,6 +78,7 @@ func getWithId(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() { //I doubt we need a full on for loop here....
 		err := rows.Scan(&st.Fullname, &st.Email, &st.Phone, &st.Date)
 		checkErr(err)
+		stu = append(stu, st)
 	}
 	json.NewEncoder(w).Encode(stu)
 }
