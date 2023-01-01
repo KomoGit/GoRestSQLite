@@ -63,7 +63,10 @@ func getAllFromDB(w http.ResponseWriter, r *http.Request) {
 	checkErr(err)
 	st := Student{}
 	for rows.Next() {
-		log.Fatalln(rows.Scan(&st.Fullname, &st.Email, &st.Phone, &st.Id, &st.Date))
+		err := rows.Scan(&st.Fullname, &st.Email, &st.Phone, &st.Id, &st.Date)
+		if err != nil {
+			log.Println(err)
+		}
 		stu = append(stu, st)
 	}
 	json.NewEncoder(w).Encode(stu)
