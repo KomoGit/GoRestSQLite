@@ -64,23 +64,22 @@ func getAllFromDB(w http.ResponseWriter, r *http.Request) {
 	st := Student{}
 	for rows.Next() {
 		err := rows.Scan(&st.Fullname, &st.Email, &st.Phone, &st.Id, &st.Date)
-		if err != nil {
-			log.Println(err)
-		}
+		checkErr(err)
 		stu = append(stu, st)
 	}
 	json.NewEncoder(w).Encode(stu)
 }
 
 func getWithId(w http.ResponseWriter, r *http.Request) {
-	/*params := mux.Vars(r)
+	params := mux.Vars(r)
 	rows, err := db.Query("SELECT Fullname, Email, Phone, RegisterDate FROM Registers WHERE UUID = ?", params["id"])
 	checkErr(err)
+	st := Student{}
 	for rows.Next() { //I doubt we need a full on for loop here....
-		err := rows.Scan(&students.Fullname, &students.Email, &students.Phone, &students.Date)
+		err := rows.Scan(&st.Fullname, &st.Email, &st.Phone, &st.Date)
 		checkErr(err)
-		log.Println(students.Fullname, students.Email, students.Phone, students.Date)
-	}*/
+	}
+	json.NewEncoder(w).Encode(stu)
 }
 
 // ETC
